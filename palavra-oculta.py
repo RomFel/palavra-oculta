@@ -1,4 +1,4 @@
-palavra='oculta'
+
 import os
 
 def titulo():
