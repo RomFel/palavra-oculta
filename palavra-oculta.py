@@ -1,6 +1,5 @@
-import os
 from data import dica, lista_palavras
-from view import limpa_tela, titulo
+from view import limpa_tela, titulo, menu_escolha, menu2
 from controller import record
 
 titulo()
@@ -10,10 +9,7 @@ recordistas = record()
 while True:
     limpa_tela()
     titulo()
-    menu = int(input('[1] Jogar\n'
-                     '[2] Recordes\n'
-                     '[0] Sair\n'
-                     'opção: '))
+    menu = menu_escolha()
     if menu == 1:
         limpa_tela()
         from random import choice
@@ -87,14 +83,7 @@ while True:
         
 
     elif menu == 2:
-        limpa_tela()
-        titulo()
-        print(f'{"Recordes":^50}')
-        
-        for i, recordista in enumerate(recordistas):
-            print(f'{i+1:0>2}  {recordista["nome"]:<40}{recordista["pontos"]:>5}')
-            
-        input('pressione <enter> para voltar')
+        menu2()
     elif menu == 0:
         break
     else:
