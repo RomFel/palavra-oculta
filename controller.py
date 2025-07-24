@@ -14,3 +14,10 @@ def record():
                     arquivo.write(f'ROM;{num}\n')
                     num -= 100
     return recordistas
+
+
+def exibe_records():
+    recordistas = record()
+    for i, recordista in enumerate(recordistas):
+        print(f'{i+1:0>2}  {recordista["nome"]:<40}{recordista["pontos"]:>5}')
+
