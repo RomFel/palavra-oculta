@@ -1,41 +1,24 @@
 import os
 from data import dica, lista_palavras
+from view import limpa_tela, titulo
+from controller import record
 
-def titulo():
-    print('-'*50)
-    print(f'{"Palavra Oculta":^50}')
-    print('-'*50)
+titulo()
+recordistas = record()
 
-recordistas = []
-while True:
-    try:
-        with open('record.txt', 'r') as arquivo:
-            for  linha in arquivo:
-                separa= linha.strip().split(';')
-                recordistas.append({'nome':separa[0], 'pontos': int(separa[1])})
-            break
-    except FileNotFoundError:
-        with open('record.txt', 'a') as arquivo:
-            num = 1000
-            for i in range(10):
-                arquivo.write(f'ROM;{num}\n')
-                num -= 100
                 
 while True:
-    os.system('cls')
+    limpa_tela()
     titulo()
     menu = int(input('[1] Jogar\n'
                      '[2] Recordes\n'
                      '[0] Sair\n'
                      'opção: '))
     if menu == 1:
-        os.system('cls')
+        limpa_tela()
         from random import choice
 
         pts_totais = 0
-
-
-
         while True:
             pts = 0
             chances = 5
@@ -69,9 +52,9 @@ while True:
                         chances -= 1
                 elif escolha in oculto:
                     noticia = (f'Palavra já contém [{escolha}]')
-                os.system('cls')
+                limpa_tela()
 
-            os.system('cls')
+            limpa_tela()
             titulo()    
             for j in oculto:
                 print(j, end=' ')
@@ -86,7 +69,7 @@ while True:
                 print(f'Parabens! Você ganhou!!! +{pts} pts')
 
             resp = input('presione <enter> para continuar ou [0] para sair ')
-            os.system('cls')
+            limpa_tela()
             if resp == '0':
                 break
 
@@ -104,7 +87,7 @@ while True:
         
 
     elif menu == 2:
-        os.system('cls')
+        limpa_tela()
         titulo()
         print(f'{"Recordes":^50}')
         
