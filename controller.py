@@ -1,0 +1,16 @@
+def record():
+    recordistas = []
+    while True:
+        try:
+            with open('record.txt', 'r') as arquivo:
+                for  linha in arquivo:
+                    separa= linha.strip().split(';')
+                    recordistas.append({'nome':separa[0], 'pontos': int(separa[1])})
+                break
+        except FileNotFoundError:
+            with open('record.txt', 'a') as arquivo:
+                num = 1000
+                for i in range(10):
+                    arquivo.write(f'ROM;{num}\n')
+                    num -= 100
+    return recordistas
