@@ -1,6 +1,9 @@
 import os
-from controller import exibe_records, record
+
+from controller import exibe_records, record, novo_record
 from data import dica, lista_palavras
+from stats import Jogador
+
 
 def limpa_tela():
     os.system('cls||clear')
@@ -24,80 +27,87 @@ def menu2():
     limpa_tela()
     titulo()
     print(f'{"Recordes":^50}')
-    
     exibe_records()
-        
     input('pressione <enter> para voltar')
 
 
+def cabecalho(pts_jogador, pts_totais_jogador, dica_jogador, chances_jogador, noticia_jogador):
+    titulo()
+    print(f'Pontos atuais: {pts_jogador:<3} || Pontos Totais: {pts_totais_jogador+pts_jogador}')
+    print(f'Dica: {dica_jogador:<13}|| Chances: {chances_jogador}')
+    print(noticia_jogador)
+    
+
+
 def menu_1():
-        recordistas = record()
         limpa_tela()
-        from random import choice
-
-        pts_totais = 0
+        jogador = Jogador()
         while True:
-            pts = 0
-            chances = 5
-            ale_dica = choice(dica)
-            ale_palavra = choice(lista_palavras[dica.index(ale_dica)])
-            oculto = []
-            noticia = ' '
-            for l in range(len(ale_palavra)):
-                oculto.append('_')
+            jogador.nova_palavra()
 
-            while '_' in oculto:
-                titulo()
-                print(f'Pontos atuais: {pts:<3} || Pontos Totais: {pts_totais+pts}')
-                print(f'Dica: {ale_dica:<13}|| Chances: {chances}')
-                print(noticia)
-                noticia = ' '
-                if chances == 0:
+            while '_' in jogador.oculto:             
+                cabecalho(jogador.pts, jogador.pts_totais, jogador.ale_dica, jogador.chances, jogador.noticia)
+                
+                if jogador.chances == 0:
                     break
-                for j in oculto:
+                for j in jogador.oculto:
                     print(j, end=' ')
                 print()
                 escolha = input('Letra: ')
-                if escolha not in oculto:
-                    if escolha in ale_palavra:
-                        for i, letra in enumerate(ale_palavra):
+                if escolha not in jogador.oculto:
+                    if escolha in jogador.ale_palavra:
+                        for i, letra in enumerate(jogador.ale_palavra):
                             if letra == escolha: 
-                                pts += chances
-                                oculto[i] = escolha
+                                jogador.pts += jogador.chances
+                                jogador.oculto[i] = escolha
                     else:
-                        noticia = (f'Palavra não contém [{escolha}]')
-                        chances -= 1
-                elif escolha in oculto:
-                    noticia = (f'Palavra já contém [{escolha}]')
+                        jogador.noticia = msg_letra_na_palavra(escolha, boo=False)
+                        jogador.chances -= 1
+                elif escolha in jogador.oculto:
+                    jogador.noticia = msg_letra_na_palavra(escolha)
                 limpa_tela()
 
             limpa_tela()
             titulo()    
-            for j in oculto:
+            for j in jogador.oculto:
                 print(j, end=' ')
             print()
-            pts_totais += pts
-            if chances == 0:
-                print('Voce perdeu')
-                print(f'A palavra era {ale_palavra}')
-                input('presione <enter> para continuar')
+            jogador.pts_totais += jogador.pts
+            if jogador.chances == 0:
+                msg_palavra_nao_completa(jogador.ale_palavra)
+                input(msg_continuar(boo=True))
                 break
             else:
-                print(f'Parabens! Você ganhou!!! +{pts} pts')
+                msg_palavra_completa(jogador.pts)
 
-            resp = input('presione <enter> para continuar ou [0] para sair ')
+            resp = input(msg_continuar())
             limpa_tela()
             if resp == '0':
                 break
 
-        print(f'Pontuação final: {pts_totais}')
-        for i, recordista in enumerate(recordistas):
-            if recordista['pontos'] < pts_totais:
-                print(f'Novo recorde!')
-                nome = input('Nome: ').upper()[:3]
-                recordistas.insert(i, {'nome': nome, 'pontos': pts_totais})
-                recordistas.pop()
-                break
-        with open('record.txt', 'w') as arquivo:
-            for recordista in recordistas:
-                arquivo.write(f'{recordista["nome"]};{str(recordista["pontos"])}\n')
+        msg_pontuacao_final(jogador.pts_totais)
+        novo_record(jogador.pts_totais)
+
+
+def msg_letra_na_palavra(letra, boo=True):
+    return f'Palavra já contém [{letra}]' if boo else f'Palavra não contém [{letra}]'
+
+def msg_continuar(boo=True):
+    return 'pressione <enter> para continuar' if boo else 'pressione <enter> para continuar ou [0] para sair '
+
+
+def msg_palavra_nao_completa(palavra):
+    print('Você perdeu')
+    print(f'A palavra era {palavra}')
+
+
+def msg_palavra_completa(pts_jogador):
+    print(f'Parabéns! Você ganhou!!! +{pts_jogador} pts')
+
+
+def msg_pontuacao_final(pts_final_jogador):
+    print(f'Pontuação final: {pts_final_jogador}')
+
+
+def msg_novo_record():
+    print(f'Novo recorde!')
