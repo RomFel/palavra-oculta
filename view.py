@@ -47,48 +47,55 @@ def palavra_ocultada(jogador):
 def menu_1():
         limpa_tela()
         jogador = Jogador()
-        while True:
-            jogador.nova_palavra()
+        roda_jogo(jogador)
 
-            while '_' in jogador.oculto:             
-                cabecalho(jogador.pts, jogador.pts_totais, jogador.ale_dica, jogador.chances, jogador.noticia)
-                
-                if jogador.chances == 0:
-                    break
-                palavra_ocultada(jogador)
-                escolha = input('Letra: ')
-                if escolha not in jogador.oculto:
-                    if escolha in jogador.ale_palavra:
-                        for i, letra in enumerate(jogador.ale_palavra):
-                            if letra == escolha: 
-                                jogador.pts += jogador.chances
-                                jogador.oculto[i] = escolha
-                    else:
-                        jogador.noticia = msg_letra_na_palavra(escolha, boo=False)
-                        jogador.chances -= 1
-                elif escolha in jogador.oculto:
-                    jogador.noticia = msg_letra_na_palavra(escolha)
-                limpa_tela()
 
-            limpa_tela()
-            titulo()    
-            palavra_ocultada(jogador)
-            jogador.pts_totais += jogador.pts
-            if jogador.chances == 0:
-                msg_palavra_nao_completa(jogador.ale_palavra)
-                input(msg_continuar(boo=True))
-                break
+def roda_jogo(jogador):
+    while True:
+        jogador.nova_palavra()
+        miolo_jogo(jogador)
+
+        limpa_tela()
+        titulo()    
+        palavra_ocultada(jogador)
+        jogador.pts_totais += jogador.pts
+        if jogador.chances == 0:
+            msg_palavra_nao_completa(jogador.ale_palavra)
+            input(msg_continuar(boo=True))
+            break
+        else:
+            msg_palavra_completa(jogador.pts)
+
+        resp = input(msg_continuar())
+        limpa_tela()
+        if resp == '0':
+            break
+
+    final_jogo(jogador)
+
+
+def miolo_jogo(jogador):
+    while '_' in jogador.oculto:             
+        cabecalho(jogador.pts, jogador.pts_totais, jogador.ale_dica, jogador.chances, jogador.noticia)
+        
+        if jogador.chances == 0:
+            break
+        palavra_ocultada(jogador)
+        escolha = input('Letra: ')
+        if escolha not in jogador.oculto:
+            if escolha in jogador.ale_palavra:
+                for i, letra in enumerate(jogador.ale_palavra):
+                    if letra == escolha: 
+                        jogador.pts += jogador.chances
+                        jogador.oculto[i] = escolha
+                        jogador.noticia = ''
             else:
-                msg_palavra_completa(jogador.pts)
+                jogador.noticia = msg_letra_na_palavra(escolha, boo=False)
+                jogador.chances -= 1
+        elif escolha in jogador.oculto:
+            jogador.noticia = msg_letra_na_palavra(escolha)
+        limpa_tela()
 
-            resp = input(msg_continuar())
-            limpa_tela()
-            if resp == '0':
-                break
-
-        final_jogo(jogador)
-
-    
 
 def final_jogo(jogador):
     msg_pontuacao_final(jogador.pts_totais)
