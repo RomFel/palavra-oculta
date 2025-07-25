@@ -35,8 +35,13 @@ def cabecalho(pts_jogador, pts_totais_jogador, dica_jogador, chances_jogador, no
     titulo()
     print(f'Pontos atuais: {pts_jogador:<3} || Pontos Totais: {pts_totais_jogador+pts_jogador}')
     print(f'Dica: {dica_jogador:<13}|| Chances: {chances_jogador}')
-    print(noticia_jogador)
-    
+    print(noticia_jogador)    
+
+
+def palavra_ocultada(jogador):
+    for j in jogador.oculto:
+        print(j, end=' ')
+    print()
 
 
 def menu_1():
@@ -50,9 +55,7 @@ def menu_1():
                 
                 if jogador.chances == 0:
                     break
-                for j in jogador.oculto:
-                    print(j, end=' ')
-                print()
+                palavra_ocultada(jogador)
                 escolha = input('Letra: ')
                 if escolha not in jogador.oculto:
                     if escolha in jogador.ale_palavra:
@@ -69,9 +72,7 @@ def menu_1():
 
             limpa_tela()
             titulo()    
-            for j in jogador.oculto:
-                print(j, end=' ')
-            print()
+            palavra_ocultada(jogador)
             jogador.pts_totais += jogador.pts
             if jogador.chances == 0:
                 msg_palavra_nao_completa(jogador.ale_palavra)
@@ -85,12 +86,18 @@ def menu_1():
             if resp == '0':
                 break
 
-        msg_pontuacao_final(jogador.pts_totais)
-        novo_record(jogador.pts_totais)
+        final_jogo(jogador)
+
+    
+
+def final_jogo(jogador):
+    msg_pontuacao_final(jogador.pts_totais)
+    novo_record(jogador.pts_totais)
 
 
 def msg_letra_na_palavra(letra, boo=True):
     return f'Palavra já contém [{letra}]' if boo else f'Palavra não contém [{letra}]'
+
 
 def msg_continuar(boo=True):
     return 'pressione <enter> para continuar' if boo else 'pressione <enter> para continuar ou [0] para sair '
