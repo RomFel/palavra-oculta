@@ -21,3 +21,17 @@ def exibe_records():
     for i, recordista in enumerate(recordistas):
         print(f'{i+1:0>2}  {recordista["nome"]:<40}{recordista["pontos"]:>5}')
 
+
+def novo_record(rec):
+    from view import msg_novo_record
+    recordistas = record()
+    for i, recordista in enumerate(recordistas):
+        if recordista['pontos'] < rec:
+            msg_novo_record()
+            nome = input('Nome: ').upper()[:3]
+            recordistas.insert(i, {'nome': nome, 'pontos': rec})
+            recordistas.pop()
+            break
+    with open('record.txt', 'w') as arquivo:
+        for recordista in recordistas:
+            arquivo.write(f'{recordista["nome"]};{str(recordista["pontos"])}\n')
