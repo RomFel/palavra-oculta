@@ -23,7 +23,7 @@ def menu_escolha():
     return escolha
 
 
-def menu2():
+def menu_2():
     limpa_tela()
     titulo()
     print(f'{"Recordes":^50}')
