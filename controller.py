@@ -1,3 +1,10 @@
+import os
+
+
+def limpa_tela():
+    os.system('cls||clear')
+
+
 def record():
     recordistas = []
     while True:

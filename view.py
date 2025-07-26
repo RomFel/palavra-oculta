@@ -1,12 +1,5 @@
-import os
-
-from controller import exibe_records, record, novo_record
-from data import dica, lista_palavras
+from controller import exibe_records, novo_record, limpa_tela
 from stats import Jogador
-
-
-def limpa_tela():
-    os.system('cls||clear')
 
 
 def titulo():
@@ -21,6 +14,12 @@ def menu_escolha():
                      '[0] Sair\n'
                      'opção: '))
     return escolha
+
+
+def menu_1():
+        limpa_tela()
+        jogador = Jogador()
+        roda_jogo(jogador)
 
 
 def menu_2():
@@ -42,12 +41,6 @@ def palavra_ocultada(jogador):
     for j in jogador.oculto:
         print(j, end=' ')
     print()
-
-
-def menu_1():
-        limpa_tela()
-        jogador = Jogador()
-        roda_jogo(jogador)
 
 
 def roda_jogo(jogador):
