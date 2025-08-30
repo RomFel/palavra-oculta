@@ -18,5 +18,5 @@
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/seu-usuario/palavra-oculta.git
+   git clone https://github.com/RomFel/palavra-oculta.git
    cd palavra-oculta
