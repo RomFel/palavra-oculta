@@ -1,6 +1,7 @@
 # 🎮 Palavra Oculta
 
-**Palavra Oculta** é um jogo de adivinhação no terminal, onde o jogador tenta descobrir uma palavra secreta a partir de uma dica temática. O jogo desafia você a acertar letras corretamente antes que suas chances acabem — quanto mais rápido acertar, mais pontos você acumula!
+**Palavra Oculta** é um jogo de adivinhação no terminal, onde o jogador tenta descobrir uma palavra secreta a partir de uma dica temática. 
+O jogo desafia você a acertar letras corretamente antes que suas chances acabem
 
 ---
 
