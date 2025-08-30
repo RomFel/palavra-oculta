@@ -20,3 +20,4 @@
    ```bash
    git clone https://github.com/RomFel/palavra-oculta.git
    cd palavra-oculta
+   py palavra-oculta.py
